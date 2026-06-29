@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>モナキ スケジュール＆リンク集</title>
+<style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #FEF8D6, #FFE9C6, #FDE6E8, #E6F4F9);
+      background-size: 400% 400%;
+      animation: gradientMove 20s ease infinite;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    h1 {
+      text-align: center;
+      color: #ff69b4;
+      margin-bottom: 10px;
+      font-size: 2rem;
+    }
+    h1 .icon {
+      font-size: 1.5rem;
+      margin: 0 0.3rem;
+    }
+    .description {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #555;
+    }
+    .schedule-section, .links-section {
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .schedule-section h2, .links-section h2 {
+      color: #ff8c00;
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+    .schedule-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .schedule-list li {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 8px;
+      background-color: #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      line-height: 1.6;
+    }
+    .schedule-list li .date {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    .schedule-list li.lottery-item {
+      background: linear-gradient(135deg, #fff8fd, #fffaf0);
+      border-left: 6px solid #ff9bd2;
+    }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      margin-right: 8px;
+      color: #333;
+    }
+    .tag-event { background-color: #fff7c2; }
+    .tag-tv { background-color: #ffe0c1; }
+    .tag-magazine { background-color: #fad1dc; }
+    .tag-radio { background-color: #d7e8fa; }
+    .tag-web { background-color: #e0d9ff; }
+    .tag-live { background-color: #e7f6d5; }
+    .tag-lottery { background-color: #ffe4f6; border: 1px solid #ff9bd2; color: #7a2358; font-weight: bold; }
+    a {
+      color: #1a73e8;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .links-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .links-section li {
+      margin-bottom: 10px;
+    }
+
+
+    /* 今日の予定だけ黄色でふんわり光る */
+    .schedule-list li.today {
+      background: linear-gradient(135deg, #fff9b8, #fff2d8);
+      border: 2px solid #ffd84d;
+      box-shadow: 0 0 0 4px rgba(255, 216, 77, 0.25), 0 0 22px rgba(255, 199, 44, 0.65);
+      transform: translateY(-1px);
+      position: relative;
+    }
+    .schedule-list li.today::before {
+      content: "📅 今日";
+      display: inline-block;
+      margin-right: 8px;
+      margin-bottom: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: #ffd84d;
+      color: #704b00;
+      font-weight: bold;
+      font-size: 0.78rem;
+    }
+    .today-summary {
+      display: none;
+      background: rgba(255, 255, 255, 0.92);
+      border: 2px dashed #ffd84d;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin: 0 0 18px;
+      color: #555;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .today-summary.show {
+      display: block;
+    }
+
+
+    /* 次の予定カード */
+    .next-event-card {
+      display: none;
+      background: linear-gradient(135deg, #fff7b8, #ffe9f1, #e8f6ff);
+      border: 3px solid #ffd84d;
+      border-radius: 20px;
+      padding: 18px 18px 20px;
+      margin: 0 auto 22px;
+      max-width: 760px;
+      color: #4b3b00;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(255, 184, 28, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .next-event-card.show {
+      display: block;
+    }
+    .next-event-card::before,
+    .next-event-card::after {
+      content: "⭐";
+      position: absolute;
+      opacity: 0.35;
+      font-size: 2rem;
+    }
+    .next-event-card::before {
+      top: 10px;
+      left: 14px;
+    }
+    .next-event-card::after {
+      right: 16px;
+      bottom: 10px;
+    }
+    .next-event-label {
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: #ff8c00;
+      margin-bottom: 8px;
+    }
+    .next-event-date {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 4px 0;
+    }
+    .next-event-title {
+      font-size: 1rem;
+      line-height: 1.7;
+      margin: 8px auto 12px;
+      max-width: 680px;
+    }
+    .next-event-countdown {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 999px;
+      padding: 5px 13px;
+      margin-bottom: 12px;
+      font-weight: bold;
+    }
+    .next-event-button {
+      border: none;
+      border-radius: 999px;
+      background: #ffcf33;
+      color: #5a3b00;
+      font-weight: bold;
+      font-size: 1rem;
+      padding: 10px 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+    .next-event-button:active {
+      transform: translateY(1px);
+    }
+    .schedule-list li.next-event {
+      border: 3px solid #ffd84d;
+      background: linear-gradient(135deg, #fff9b8, #fff6df);
+      box-shadow: 0 0 0 5px rgba(255, 216, 77, 0.25), 0 0 28px rgba(255, 199, 44, 0.8);
+      animation: nextGlow 1.8s ease-in-out infinite alternate;
+      scroll-margin-top: 18px;
+    }
+    .schedule-list li.next-event::before {
+      content: "💛 次の予定";
+      display: inline-block;
+      margin-right: 8px;
+      margin-bottom: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: #ffd84d;
+      color: #704b00;
+      font-weight: bold;
+      font-size: 0.78rem;
+    }
+    @keyframes nextGlow {
+      from { box-shadow: 0 0 0 4px rgba(255, 216, 77, 0.22), 0 0 18px rgba(255, 199, 44, 0.45); }
+      to { box-shadow: 0 0 0 7px rgba(255, 216, 77, 0.32), 0 0 34px rgba(255, 199, 44, 0.85); }
+    }
+
+    /* スマホ用デザイン */
+    @media (max-width: 640px) {
+      body {
+        padding: 12px;
+        font-size: 16px;
+      }
+      h1 {
+        font-size: 1.45rem;
+        line-height: 1.35;
+        margin-top: 8px;
+      }
+      h1 .icon {
+        display: inline-block;
+        font-size: 1.2rem;
+      }
+      .description {
+        font-size: 0.92rem;
+        line-height: 1.7;
+        margin-bottom: 18px;
+      }
+      .schedule-section,
+      .links-section {
+        padding: 14px;
+        border-radius: 18px;
+        margin-bottom: 18px;
+      }
+      .schedule-section h2,
+      .links-section h2 {
+        font-size: 1.2rem;
+      }
+      .schedule-list li {
+        padding: 13px 12px;
+        border-radius: 14px;
+        line-height: 1.7;
+        word-break: break-word;
+      }
+      .schedule-list li .date {
+        display: inline-block;
+        min-width: 48px;
+        margin-bottom: 4px;
+        font-size: 1.05rem;
+      }
+      .tag {
+        font-size: 0.72rem;
+        padding: 3px 9px;
+      }
+      a {
+        display: inline-block;
+        margin-top: 4px;
+      }
+      .links-section li {
+        padding: 10px 0;
+        border-bottom: 1px dashed #eee;
+      }
+      .links-section li:last-child {
+        border-bottom: none;
+      }
+
+      .next-event-card {
+        padding: 16px 14px 18px;
+        border-radius: 18px;
+        margin-bottom: 18px;
+      }
+      .next-event-date {
+        font-size: 1.25rem;
+      }
+      .next-event-button {
+        width: 100%;
+        padding: 12px 16px;
+      }
+    }
+
+  
+    .next-event-link {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+    }
+    .next-event-link:hover {
+      text-decoration: none;
+    }
+    .jump-flash {
+      animation: jumpFlash 1.4s ease-in-out 2;
+    }
+    @keyframes jumpFlash {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.025); box-shadow: 0 0 28px rgba(255, 214, 72, 0.9); }
+    }
+
+    .tag-fes { background-color: #f1e3ff; border: 1px solid #c9a3ff; color: #5b2a86; font-weight: bold; }
+    .tag-reserve { background-color: #e4fff1; border: 1px solid #72d69a; color: #16663a; font-weight: bold; }
+    .tag-deadline { background-color: #ffe4e4; border: 1px solid #ff8b8b; color: #8a1f1f; font-weight: bold; }
+    .tag-benefit { background-color: #fff0cc; border: 1px solid #ffbe4d; color: #7a4b00; font-weight: bold; }
+    </style>
+</head>
+<body>
+<h1><span class="icon">💛</span>モナキ スケジュール＆リンク集<span class="icon">⭐</span></h1>
+<p class="description">モナキのライブ・イベントやメディア出演情報をまとめました。詳細リンクから各サイトをご確認ください♪</p>
+<div class="today-summary" id="todaySummary"></div>
+<div class="next-event-card show" id="nextEventCard">
+<a aria-label="次の予定へ移動する" class="next-event-link" href="#event-2026-06-28" id="nextEventLink">
+<div class="next-event-label">💛 次の予定</div>
+<div class="next-event-date" id="nextEventDate">📅 6/28</div>
+<div class="next-event-title" id="nextEventTitle">テレ東音楽祭 2026夏</div>
+<div class="next-event-countdown" id="nextEventCountdown">⏰ タップして移動</div>
+<div class="next-event-button">👇ここをタップして予定へ</div>
+</a>
+</div>
+<div class="schedule-section">
+<h2>スケジュール一覧</h2>
+<ul class="schedule-list">
+<li data-end="2026-06-02" data-start="2026-06-02" id="event-2026-06-02"><span class="date">6/2</span><span class="tag tag-event">イベント</span>すみだ産業会館 デビューシングル発売記念キャンペーン — <a href="https://www.sumidasangyoukaikan.jp/" target="_blank">会場情報</a></li>
+<li data-end="2026-06-02" data-start="2026-06-02" id="event-2026-06-02"><span class="date">6/2</span><span class="tag tag-tv">TV</span>NHK総合「うたコン」 — <a href="https://www.web.nhk/tv/an/utacon/pl/series-step-1J9MXY5QX2/ep/EY2PQNP6XR" target="_blank">番組サイト</a></li>
+<li data-end="2026-06-04" data-start="2026-06-04" id="event-2026-06-04"><span class="date">6/4</span><span class="tag tag-tv">TV</span>メ～テレ「ドデスカ！」 — <a href="https://www.nagoyatv.com/dode/" target="_blank">番組サイト</a></li>
+<li data-end="2026-06-04" data-start="2026-06-04" id="event-2026-06-04"><span class="date">6/4</span><span class="tag tag-magazine">雑誌</span>週刊文春 6月11日号 — <a href="https://bunshun.jp/articles/-/89189" target="_blank">記事</a></li>
+<li data-end="2026-06-04" data-start="2026-06-04" id="event-2026-06-04"><span class="date">6/4</span><span class="tag tag-magazine">雑誌</span>日経エンタテインメント！7月号 — <a href="https://project.nikkeibp.co.jp/ent/" target="_blank">インタビュー</a></li>
+<li data-end="2026-06-05" data-start="2026-06-05" id="event-2026-06-05"><span class="date">6/5</span><span class="tag tag-magazine">雑誌</span>メンズユニット vol.31 — 取扱店舗：<a href="https://www.hmv.co.jp/product/detail/16931762" target="_blank">HMV</a>, <a href="https://shibuyatsutaya.stores.jp/items/6a0a7ae8689119125d0d2650" target="_blank">TSUTAYA</a>, <a href="https://store.shopping.yahoo.co.jp/tsutaya-ebisubashi-n/mensunit31.html" target="_blank">TSUTAYA EBISUBASHI</a>, <a href="https://tower.jp/item/8038186" target="_blank">タワーレコード</a>, <a href="https://www.kinokuniya.co.jp/f/dsg-01-9784910031552" target="_blank">紀伊國屋書店</a></li>
+<li data-end="2026-06-05" data-start="2026-06-05" id="event-2026-06-05"><span class="date">6/5</span><span class="tag tag-tv">TV</span>メ～テレ「ドデスカ！」ウルフィサイコロコーナー — <a href="https://www.nagoyatv.com/dode/" target="_blank">番組サイト</a></li>
+<li data-end="2026-06-05" data-start="2026-06-05" id="event-2026-06-05"><span class="date">6/5</span><span class="tag tag-radio">ラジオ</span>ニッポン放送『あいみょんのオールナイトニッポンGOLD』 — <a href="https://www.allnightnippon.com/aim/" target="_blank">番組サイト</a></li>
+<li data-end="2026-06-05" data-start="2026-06-05" id="event-2026-06-05"><span class="date">6/5</span><span class="tag tag-radio">ラジオ</span>ニッポン放送『霜降り明星のオールナイトニッポン』（おヨネ） — <a href="https://www.allnightnippon.com/shimofuri/" target="_blank">番組サイト</a></li>
+<li data-end="2026-06-07" data-start="2026-06-07" id="event-2026-06-07"><span class="date">6/7</span><span class="tag tag-event">イベント</span>デビューシングル発売記念リリースイベント（エミテラス所沢） — <a href="https://et-ge-tokorozawa.com/" target="_blank">施設情報</a></li>
+<li data-end="2026-06-07" data-start="2026-06-07" id="event-2026-06-07"><span class="date">6/7</span><span class="tag tag-tv">TV</span>日本テレビ「シューイチ」 — <a href="https://www.ntv.co.jp/shu-ichi/" target="_blank">番組サイト</a></li>
+<li data-end="2026-06-09" data-start="2026-06-09" id="event-2026-06-09"><span class="date">6/9</span><span class="tag tag-event">イベント</span>ASIA CULTURE FESTIVAL 2026 — <a href="https://acfes.jp/" target="_blank">オフィシャルサイト</a></li>
+<li data-end="2026-06-10" data-start="2026-06-10" id="event-2026-06-10"><span class="date">6/10</span><span class="tag tag-magazine">雑誌</span>TVLIFE 6/26号 — HMV&amp;BOOKS首都圏版・関西版・コンプリートセット</li>
+<li data-end="2026-06-13" data-start="2026-06-13" id="event-2026-06-13"><span class="date">6/13</span><span class="tag tag-event">イベント</span>ナースフェス2026 — <a href="https://nurse-senka.jp/nurse-fes/2026" target="_blank">イベントサイト</a></li>
+<li data-end="2026-06-13" data-start="2026-06-13" id="event-2026-06-13"><span class="date">6/13</span><span class="tag tag-web">WEB</span>ABEMA「MUSIC AWARDS JAPAN 2026」Grand Ceremony中継 — <a href="https://abema.tv/" target="_blank">ABEMA</a></li>
+<li data-end="2026-06-20" data-start="2026-06-13" id="event-2026-06-13"><span class="date">6/13・20</span><span class="tag tag-tv">TV</span>読売テレビ「すもももももも！ピーチCAFE」 — <a href="https://www.ytv.co.jp/peachcafe/" target="_blank">番組サイト</a></li>
+<li data-end="2026-06-16" data-start="2026-06-16" id="event-2026-06-16"><span class="date">6/16</span><span class="tag tag-magazine">雑誌</span>週刊SPA! 6月23日・30日合併号 — <a href="https://7net.omni7.jp/detail/1107712870" target="_blank">ポストカードA</a>, <a href="https://7net.omni7.jp/detail/1107712871" target="_blank">ポストカードB</a></li>
+<li data-end="2026-06-18" data-start="2026-06-18" id="event-2026-06-18"><span class="date">6/18</span><span class="tag tag-magazine">雑誌</span>TVガイドPERSON vol.166 — <a href="https://www.hmv.co.jp/news/article/260528131/" target="_blank">特典付予約</a></li>
+<li data-end="2026-06-20" data-start="2026-06-20" id="event-2026-06-20"><span class="date">6/20</span><span class="tag tag-tv">TV</span>テレビ朝日「モナキ 純度100％！」（関東ローカル）</li>
+<li data-end="2026-06-21" data-start="2026-06-21" id="event-2026-06-21"><span class="date">6/21</span><span class="tag tag-live">ライブ</span>YATSUI FESTIVAL! 2026 — <a href="https://yatsui-fes.com" target="_blank">フェス公式</a>, <a href="https://x.com/YATSUIFES" target="_blank">X</a>, <a href="https://www.facebook.com/YATSUIFES" target="_blank">Facebook</a>, <a href="https://www.instagram.com/yatsuifes/" target="_blank">Instagram</a></li>
+<li data-end="2026-06-22" data-start="2026-06-22" id="event-2026-06-22"><span class="date">6/22</span><span class="tag tag-radio">ラジオ</span>NHK FM「ミュージックライン」（じん・ケンケン） — <a href="https://www.nhk.jp/p/ml/rs/Z9WGYY3GP5/episode/re/Y58RWWXP65/" target="_blank">番組サイト</a></li>
+<li data-end="2026-06-25" data-start="2026-06-25" id="event-2026-06-25"><span class="date">6/25</span><span class="tag tag-tv">TV</span>読売テレビ「見取り図の間取り図ミステリー」（サカイJr.） — <a href="https://ytv.co.jp/floorplan_mystery/" target="_blank">番組サイト</a></li>
+<li data-end="2026-06-26" data-start="2026-06-26" id="event-2026-06-26"><span class="date">6/26</span><span class="tag tag-tv">TV</span>テレビ朝日「ミュージックステーション」 — <a href="https://www.tv-asahi.co.jp/music/" target="_blank">番組サイト</a></li>
+<li data-end="2026-06-28" data-start="2026-06-28" id="event-2026-06-28"><span class="date">6/28</span><span class="tag tag-tv">TV</span>テレ東音楽祭 2026夏 — <a href="https://www.tv-tokyo.co.jp/ongakusai_2026/" target="_blank">番組サイト</a></li>
+<li class="lottery-item" data-end="2026-06-30" data-start="2026-06-30" id="event-2026-06-30-lottery-knights"><span class="date">6/30</span><span class="tag tag-lottery">当落</span>BSテレ東「ナイツの名曲ショー劇場」観覧 当選発表予定 — <a href="https://monaki.fanpla.jp/news/detail/82870" target="_blank">観覧募集情報</a></li>
+<li data-end="2026-07-01" data-start="2026-07-01" id="event-2026-07-01"><span class="date">7/1</span><span class="tag tag-tv">TV</span>フジテレビ『2026 FNS歌謡祭 夏』生放送（18:30～21:54） — <a href="https://www.fujitv.co.jp/FNS/s/" target="_blank">番組サイト</a></li>
+<li data-end="2026-07-02" data-start="2026-07-02" id="event-2026-07-02"><span class="date">7/2</span><span class="tag tag-event">イベント</span>NHK公開録画「新・BS日本のうた」@KDDI維新ホール（山口）17:50開場／18:30開演 — <a href="https://www.event.nhk.or.jp/e-portal/detail.html?id=4001" target="_blank">詳細</a></li>
+<li data-end="2026-07-02" data-start="2026-07-02" id="event-2026-07-02"><span class="date">7/2</span><span class="tag tag-magazine">雑誌</span>『S Cawaii! ME 2026 SUMMER』特別版 BACK COVER — <a href="https://scawaiiweb.com/20260520_scawaiime_johoukaikin" target="_blank">詳細</a></li>
+<li data-end="2026-07-04" data-start="2026-07-04" id="event-2026-07-04"><span class="date">7/4</span><span class="tag tag-live">ライブ</span>『週末KOREA ハップルフェス in 大阪』スペシャルミニライブ（15:00～15:30） — <a href="https://www.mbs.jp/hotplace-fes/" target="_blank">イベント公式</a></li>
+<li data-end="2026-07-04" data-start="2026-07-04" id="event-2026-07-04"><span class="date">7/4</span><span class="tag tag-radio">ラジオ</span>TBSラジオ『ラジオやで☆モナキやねん☆しらんけど』放送開始（毎週土曜 5:05～5:20） — <a href="https://www.tbsradio.jp/articles/108968/" target="_blank">番組情報</a></li>
+<li class="lottery-item" data-end="2026-07-04" data-start="2026-07-04" id="event-2026-07-04-lottery-zepp"><span class="date">7/4</span><span class="tag tag-lottery">当落</span>Zeppツアー プレリザーブ2次 当落発表（18:00予定） — <a href="https://monaki.fanpla.jp/news/detail/81576" target="_blank">先行情報</a></li>
+<li data-end="2026-07-05" data-start="2026-07-05" id="event-2026-07-05"><span class="date">7/5</span><span class="tag tag-live">ライブ</span>鈴鹿サーキット「8FES！」— モナキ出演日7月5日 — <a href="https://www.suzukacircuit.jp/8tai/event/" target="_blank">イベントサイト</a></li>
+<li class="lottery-item" data-end="2026-07-08" data-start="2026-07-08" id="event-2026-07-08-lottery-mezamashi1"><span class="date">7/8</span><span class="tag tag-lottery">当落</span>めざましWANGANフェス プレリザーブ 当落発表（18:00） — <a href="https://monaki.fanpla.jp/news/detail/81685" target="_blank">チケット情報</a></li>
+<li data-end="2026-07-09" data-start="2026-07-09" id="event-2026-07-09"><span class="date">7/9</span><span class="tag tag-event">イベント</span>BSテレ東「ナイツの名曲ショー劇場」収録観覧（17:25～20:30） — <a href="https://monaki.fanpla.jp/news/detail/82870" target="_blank">観覧募集情報</a></li>
+<li class="lottery-item" data-end="2026-07-09" data-start="2026-07-09" id="event-2026-07-09-lottery-anan-hmv"><span class="date">7/9</span><span class="tag tag-lottery">当落</span>「anan」2501号 パネルプレゼント当選発表（HMV＆BOOKS SHIBUYA / NAMBA・17時頃） — <a href="https://monaki.fanpla.jp/news/detail/82965" target="_blank">掲載情報</a></li>
+<li data-end="2026-07-11" data-start="2026-07-11" id="event-2026-07-11"><span class="date">7/11</span><span class="tag tag-radio">ラジオ</span>TBSラジオ『ラジオやで☆モナキやねん☆しらんけど』放送（5:05～5:20） — <a href="https://natalie.mu/music/news/674858" target="_blank">番組情報</a></li>
+<li class="lottery-item" data-end="2026-07-10" data-start="2026-07-10" id="event-2026-07-10-lottery-anan-tower"><span class="date">7/10</span><span class="tag tag-lottery">当落</span>「anan」2501号 パネルプレゼント当選発表（タワーレコード新宿店・正午以降） — <a href="https://monaki.fanpla.jp/news/detail/82965" target="_blank">掲載情報</a></li>
+<li data-end="2026-07-13" data-start="2026-07-13" id="event-2026-07-13"><span class="date">7/13</span><span class="tag tag-tv">TV</span>テレビ朝日「冠モナキ」初回放送（26:20～26:45） — <a href="https://www.tv-asahi.co.jp/barabara/" target="_blank">番組サイト</a></li>
+<li class="lottery-item" data-end="2026-07-31" data-start="2026-07-15" id="event-2026-07-15-lottery-2shot"><span class="date">7月中旬〜下旬</span><span class="tag tag-lottery">当落</span>8/10 メンバー個別2ショット撮影会 抽選結果発表予定 — <a href="https://monaki.fanpla.jp/news/detail/82529" target="_blank">抽選販売情報</a></li>
+<li data-end="2026-07-18" data-start="2026-07-18" id="event-2026-07-18"><span class="date">7/18</span><span class="tag tag-live">ライブ</span>テレビ朝日・六本木ヒルズ SUMMER FES 音楽LIVE（開場14:00/開演15:00・開場18:00/開演19:00） — <a href="https://www.tv-asahi.co.jp/summerstation/arena/music/" target="_blank">詳細</a></li>
+<li data-end="2026-07-20" data-start="2026-07-20" id="event-2026-07-20"><span class="date">7/20</span><span class="tag tag-event">イベント</span>ボートレース下関「GⅢオールレディース ジュエルセブンカップ」ステージイベント（山口） — <a href="https://www.boatrace-shimonoseki.jp/modules/service/?page=index_event" target="_blank">イベント情報</a></li>
+<li data-end="2026-07-23" data-start="2026-07-23" id="event-2026-07-23"><span class="date">7/23</span><span class="tag tag-event">イベント</span>デビューシングル発売記念リリースイベント＠イオンモール新利府（宮城）17:00開始 — <a href="https://monaki.fanpla.jp/news/detail/82354" target="_blank">詳細</a></li>
+<li class="lottery-item" data-end="2026-07-23" data-start="2026-07-23" id="event-2026-07-23-lottery-mezamashi2"><span class="date">7/23</span><span class="tag tag-lottery">当落</span>めざましWANGANフェス プレリザーブ2次 当落発表（18:00） — <a href="https://monaki.fanpla.jp/news/detail/81685" target="_blank">チケット情報</a></li>
+<li data-end="2026-07-26" data-start="2026-07-25" id="event-2026-07-25"><span class="date">7/25-26</span><span class="tag tag-live">ライブ</span>tbc夏まつり2026（勾当台公園・錦町公園／仙台）出演 — <a href="https://www.tbcfes.jp/" target="_blank">フェス公式</a></li>
+<li data-end="2026-07-28" data-start="2026-07-28" id="event-2026-07-28"><span class="date">7/28</span><span class="tag tag-magazine">雑誌</span>『GIRLS CONTINUE Vol.15』発売 — <a href="https://www.ohtabooks.com/publish/2026/07/24132938.html" target="_blank">詳細</a></li>
+<li data-end="2026-08-03" data-start="2026-08-03" id="event-2026-08-03"><span class="date">8/3</span><span class="tag tag-live">ライブ</span>『めざましライブ モナキ in めざましWANGANフェス』@豊洲PIT（開場18:00/開演19:00） — <a href="https://www.fujitv.co.jp/wanganfes/" target="_blank">イベントサイト</a></li>
+<li data-end="2026-08-06" data-start="2026-08-06" id="event-2026-08-06-yutopia"><span class="date">8/6</span><span class="tag tag-event">夏祭り</span><span class="tag tag-live">ライブ</span>湯〜とぴあ宝 夏まつり @湯〜とぴあ宝 駐車場（16:00〜20:00／15:00〜特典会予定／18:40〜モナキ スペシャルライブ） — <a href="https://www.yu-t.com/information/detail/975/" target="_blank">会場公式</a></li>
+<li data-end="2026-08-10" data-start="2026-08-10" id="event-2026-08-10"><span class="date">8/10</span><span class="tag tag-event">イベント</span>メンバー個別2ショット撮影会（シングルC・Dタイプ購入者対象）12:00～19:40 都内某所 — <a href="https://shop-crtk.com/search?tagGroupCode=TG00000279" target="_blank">応募情報</a></li>
+<li data-end="2026-08-18" data-start="2026-08-18" id="event-2026-08-18"><span class="date">8/18</span><span class="tag tag-live">ライブ</span>MONAKI 1st Tour 2026「モナキやで☆しらんけど」大阪公演 @Zepp Namba（開場17:30/開演18:30） — <a href="https://www.kyodotokyo.com/monaki26/" target="_blank">公演情報</a></li>
+<li data-end="2026-08-19" data-start="2026-08-19" id="event-2026-08-19"><span class="date">8/19</span><span class="tag tag-live">ライブ</span>MONAKI 1st Tour 2026「モナキやで☆しらんけど」名古屋公演 @Zepp Nagoya（開場18:00/開演19:00） — <a href="https://www.kyodotokyo.com/monaki26/" target="_blank">公演情報</a></li>
+<li data-end="2026-08-24" data-start="2026-08-24" id="event-2026-08-24"><span class="date">8/24</span><span class="tag tag-live">ライブ</span>MONAKI 1st Tour 2026「モナキやで☆しらんけど」東京公演 @Zepp Haneda（開場18:00/開演19:00） — <a href="https://www.kyodotokyo.com/monaki26/" target="_blank">公演情報</a></li>
+<li data-end="2026-08-30" data-start="2026-08-30" id="event-2026-08-30-atjam"><span class="date">8/30</span><span class="tag tag-live">ライブ</span><span class="tag tag-fes">フェス</span>＠ JAM EXPO2026 supported by UP-T 出演 @横浜アリーナ — <a href="https://atjam.jp/expo2026" target="_blank">オフィシャルサイト</a>（詳細は後日発表）</li><li data-end="2026-10-27" data-start="2026-10-27" id="event-2026-10-27"><span class="date">10/27</span><span class="tag tag-live">ライブ</span>ワンマンライブ「ハロウィンやで☆しらんけど」@豊洲PIT（東京） — <a href="https://monaki.fanpla.jp/news/detail/82977" target="_blank">ニュース詳細</a></li>
+</ul>
+</div>
+<div class="links-section">
+<h2>公式リンク集</h2>
+<ul>
+<li>モナキ公式サイト — <a href="https://monaki.fanpla.jp/" target="_blank">monaki.fanpla.jp</a></li>
+<li>モナキ公式X (Twitter) — <a href="https://x.com/monaki_official" target="_blank">@monaki_official</a></li>
+<li>モナキ公式YouTube — <a href="https://www.youtube.com/@monaki_official" target="_blank">YouTubeチャンネル</a></li>
+<li>モナキ公式TikTok — <a href="https://www.tiktok.com/@monaki__official" target="_blank">@monaki__official</a></li>
+<li>モナキ公式Instagram — <a href="https://www.instagram.com/monaki_official" target="_blank">@monaki_official</a></li>
+</ul>
+</div>
+<p class="description">このページはファンによる非公式なまとめページです。</p>
+<script>
+    // 次の予定カード＆今日の予定ハイライト（iPhoneでも動きやすい版）
+    document.addEventListener('DOMContentLoaded', function () {
+      const items = Array.from(document.querySelectorAll('.schedule-list li[data-start]'));
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      function toDate(value) {
+        const parts = String(value).split('-').map(Number);
+        return new Date(parts[0], parts[1] - 1, parts[2]);
+      }
+
+      function daysBetween(a, b) {
+        return Math.round((b.getTime() - a.getTime()) / 86400000);
+      }
+
+      function dateLabel(date) {
+        const week = ['日', '月', '火', '水', '木', '金', '土'][date.getDay()];
+        return `${date.getMonth() + 1}/${date.getDate()}（${week}）`;
+      }
+
+      function cleanTitle(item) {
+        const clone = item.cloneNode(true);
+        clone.querySelectorAll('.date, .tag').forEach(el => el.remove());
+        return clone.textContent.replace(/\s+/g, ' ').replace(/^—\s*/, '').trim();
+      }
+
+      let upcoming = [];
+      let todays = [];
+
+      items.forEach((item, index) => {
+        item.classList.remove('today', 'next-event', 'jump-flash');
+        const start = toDate(item.dataset.start);
+        const end = toDate(item.dataset.end || item.dataset.start);
+
+        if (today >= start && today <= end) {
+          item.classList.add('today');
+          todays.push(item.textContent.replace(/\s+/g, ' ').trim());
+          upcoming.push({ item, index, date: today, title: cleanTitle(item) });
+        } else if (start >= today) {
+          upcoming.push({ item, index, date: start, title: cleanTitle(item) });
+        }
+      });
+
+      const summary = document.getElementById('todaySummary');
+      if (summary) {
+        summary.classList.add('show');
+        summary.innerHTML = todays.length
+          ? '🌟 <strong>今日の予定があります！</strong><br>' + todays.map(t => '・' + t).join('<br>')
+          : '今日は登録されている予定はありません。次のモナキ予定までゆるっと待機中です💛';
+      }
+
+      const card = document.getElementById('nextEventCard');
+      const link = document.getElementById('nextEventLink');
+      if (!card || !link) return;
+
+      if (!upcoming.length) {
+        card.classList.add('show');
+        link.removeAttribute('href');
+        document.getElementById('nextEventDate').textContent = '📅 今後の予定なし';
+        document.getElementById('nextEventTitle').textContent = '登録されている今後の予定はありません。新情報待機中です⭐';
+        document.getElementById('nextEventCountdown').textContent = '';
+        return;
+      }
+
+      upcoming.sort((a, b) => (a.date - b.date) || (a.index - b.index));
+      const next = upcoming[0];
+      next.item.classList.add('next-event');
+      next.item.id = next.item.id || ('next-event-item-' + next.index);
+
+      const diff = daysBetween(today, next.date);
+      const countdown = diff === 0 ? '今日です！' : diff === 1 ? 'あと1日' : `あと${diff}日`;
+
+      card.classList.add('show');
+      link.href = '#' + next.item.id;
+      document.getElementById('nextEventDate').textContent = '📅 ' + dateLabel(next.date);
+      document.getElementById('nextEventTitle').textContent = next.title;
+      document.getElementById('nextEventCountdown').textContent = '⏰ ' + countdown;
+
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        next.item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        next.item.classList.remove('jump-flash');
+        void next.item.offsetWidth;
+        next.item.classList.add('jump-flash');
+        history.replaceState(null, '', '#' + next.item.id);
+      });
+    });
+  </script></body>
+</html>

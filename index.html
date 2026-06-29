@@ -912,7 +912,7 @@ h1{
 <script>
     // 次の予定カード＆今日の予定ハイライト（iPhoneでも動きやすい版）
     document.addEventListener('DOMContentLoaded', function () {
-      const items = Array.from(document.querySelectorAll('.schedule-list li[data-start]'));
+      const items = Array.from(document.querySelectorAll('.schedule-list li[data-start]')).filter(item => item.dataset.campaign !== 'true');
       const today = new Date();
       today.setHours(0, 0, 0, 0);
 

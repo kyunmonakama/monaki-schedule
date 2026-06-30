@@ -844,6 +844,10 @@ h1{
 .filter-buttons{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important;overflow:visible!important;}
 .filter-button{font-size:.74rem!important;padding:7px 4px!important;}
 @media(max-width:640px){.filter-buttons{grid-template-columns:repeat(4,1fr)!important;gap:5px!important}.filter-button{font-size:.62rem!important;padding:6px 2px!important}}
+
+.site-footer{margin:40px auto 20px;padding-top:16px;border-top:1px solid #ece6d8;text-align:center;font-size:.8rem;color:#8a8a8a;line-height:1.8}
+.site-footer a{color:#8a8a8a;text-decoration:none}
+.site-footer a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -931,94 +935,133 @@ h1{
 </div>
 <p class="description">このページはファンによる非公式なまとめページです。</p>
 <script>
-    // 次の予定カード＆今日の予定ハイライト（iPhoneでも動きやすい版）
-    document.addEventListener('DOMContentLoaded', function () {
-      const items = Array.from(document.querySelectorAll('.schedule-list li[data-start]')).filter(item => item.dataset.campaign !== 'true');
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
+// 次の予定カード＆今日の予定ハイライト（長期キャンペーン除外版）
+document.addEventListener('DOMContentLoaded', function () {
+  const items = Array.from(document.querySelectorAll('.schedule-list li[data-start]'))
+    .filter(item => item.dataset.campaign !== 'true');
 
-      function toDate(value) {
-        const parts = String(value).split('-').map(Number);
-        return new Date(parts[0], parts[1] - 1, parts[2]);
-      }
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
-      function daysBetween(a, b) {
-        return Math.round((b.getTime() - a.getTime()) / 86400000);
-      }
+  function toDate(value) {
+    const parts = String(value).split('-').map(Number);
+    return new Date(parts[0], parts[1] - 1, parts[2]);
+  }
 
-      function dateLabel(date) {
-        const week = ['日', '月', '火', '水', '木', '金', '土'][date.getDay()];
-        return `${date.getMonth() + 1}/${date.getDate()}（${week}）`;
-      }
+  function daysBetween(a, b) {
+    return Math.round((b.getTime() - a.getTime()) / 86400000);
+  }
 
-      function cleanTitle(item) {
-        const clone = item.cloneNode(true);
-        clone.querySelectorAll('.date, .tag').forEach(el => el.remove());
-        return clone.textContent.replace(/\s+/g, ' ').replace(/^—\s*/, '').trim();
-      }
+  function dateLabel(date) {
+    const week = ['日', '月', '火', '水', '木', '金', '土'][date.getDay()];
+    return `${date.getMonth() + 1}/${date.getDate()}（${week}）`;
+  }
 
-      let upcoming = [];
-      let todays = [];
+  function cleanTitle(item) {
+    const clone = item.cloneNode(true);
+    clone.querySelectorAll('.date, .tag, .calendar-link').forEach(el => el.remove());
+    return clone.textContent.replace(/\s+/g, ' ').replace(/^—\s*/, '').trim();
+  }
 
-      items.forEach((item, index) => {
-        item.classList.remove('today', 'next-event', 'jump-flash');
-        const start = toDate(item.dataset.start);
-        const end = toDate(item.dataset.end || item.dataset.start);
+  let upcoming = [];
+  let todays = [];
 
-        if (today >= start && today <= end) {
-          item.classList.add('today');
-          todays.push(item.textContent.replace(/\s+/g, ' ').trim());
-          upcoming.push({ item, index, date: today, title: cleanTitle(item) });
-        } else if (start >= today) {
-          upcoming.push({ item, index, date: start, title: cleanTitle(item) });
-        }
-      });
+  items.forEach((item, index) => {
+    item.classList.remove('today', 'next-event', 'jump-flash');
+    const start = toDate(item.dataset.start);
+    const end = toDate(item.dataset.end || item.dataset.start);
 
-      const summary = document.getElementById('todaySummary');
-      if (summary) {
-        summary.classList.add('show');
-        summary.innerHTML = todays.length
-          ? '🌟 <strong>今日の予定があります！</strong><br>' + todays.map(t => '・' + t).join('<br>')
-          : '今日は登録されている予定はありません。次のモナキ予定までゆるっと待機中です💛';
-      }
+    if (today >= start && today <= end) {
+      item.classList.add('today');
+      todays.push(item.textContent.replace(/\s+/g, ' ').trim());
+      upcoming.push({ item, index, date: today, title: cleanTitle(item) });
+    } else if (start >= today) {
+      upcoming.push({ item, index, date: start, title: cleanTitle(item) });
+    }
+  });
 
-      const card = document.getElementById('nextEventCard');
-      const link = document.getElementById('nextEventLink');
-      if (!card || !link) return;
+  const summary = document.getElementById('todaySummary');
+  if (summary) {
+    summary.classList.add('show');
+    summary.innerHTML = todays.length
+      ? '🌟 <strong>今日の予定があります！</strong><br>' + todays.map(t => '・' + t).join('<br>')
+      : '今日は登録されている予定はありません。次のモナキ予定までゆるっと待機中です💛';
+  }
 
-      if (!upcoming.length) {
-        card.classList.add('show');
-        link.removeAttribute('href');
-        document.getElementById('nextEventDate').textContent = '📅 今後の予定なし';
-        document.getElementById('nextEventTitle').textContent = '登録されている今後の予定はありません。新情報待機中です⭐';
-        document.getElementById('nextEventCountdown').textContent = '';
-        return;
-      }
+  const card = document.getElementById('nextEventCard');
+  const link = document.getElementById('nextEventLink');
+  if (!card || !link) return;
 
-      upcoming.sort((a, b) => (a.date - b.date) || (a.index - b.index));
-      const next = upcoming[0];
-      next.item.classList.add('next-event');
-      next.item.id = next.item.id || ('next-event-item-' + next.index);
+  if (!upcoming.length) {
+    card.classList.add('show');
+    link.removeAttribute('href');
+    document.getElementById('nextEventDate').textContent = '📅 今後の予定なし';
+    document.getElementById('nextEventTitle').textContent = '登録されている今後の予定はありません。新情報待機中です⭐';
+    document.getElementById('nextEventCountdown').textContent = '';
+    return;
+  }
 
-      const diff = daysBetween(today, next.date);
-      const countdown = diff === 0 ? '今日です！' : diff === 1 ? 'あと1日' : `あと${diff}日`;
+  upcoming.sort((a, b) => (a.date - b.date) || (a.index - b.index));
+  const next = upcoming[0];
+  next.item.classList.add('next-event');
+  next.item.id = next.item.id || ('next-event-item-' + next.index);
 
-      card.classList.add('show');
-      link.href = '#' + next.item.id;
-      document.getElementById('nextEventDate').textContent = '📅 ' + dateLabel(next.date);
-      document.getElementById('nextEventTitle').textContent = next.title;
-      document.getElementById('nextEventCountdown').textContent = '⏰ ' + countdown;
+  const diff = daysBetween(today, next.date);
+  const countdown = diff === 0 ? '今日です！' : diff === 1 ? 'あと1日' : `あと${diff}日`;
 
-      link.addEventListener('click', function (event) {
-        event.preventDefault();
-        next.item.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        next.item.classList.remove('jump-flash');
-        void next.item.offsetWidth;
-        next.item.classList.add('jump-flash');
-        history.replaceState(null, '', '#' + next.item.id);
-      });
-    });
-  </script><script>
+  card.classList.add('show');
+  link.href = '#' + next.item.id;
+  document.getElementById('nextEventDate').textContent = '📅 ' + dateLabel(next.date);
+  document.getElementById('nextEventTitle').textContent = next.title;
+  document.getElementById('nextEventCountdown').textContent = '⏰ ' + countdown;
+
+  link.addEventListener('click', function (event) {
+    event.preventDefault();
+    next.item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    next.item.classList.remove('jump-flash');
+    void next.item.offsetWidth;
+    next.item.classList.add('jump-flash');
+    history.replaceState(null, '', '#' + next.item.id);
+  });
+});
+</script><script>
+// 開催中キャンペーン表示
+document.addEventListener('DOMContentLoaded', function () {
+  const section = document.getElementById('activeCampaignsSection');
+  const list = document.getElementById('activeCampaignsList');
+  if (!section || !list) return;
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  function toDate(value){
+    const p = String(value).split('-').map(Number);
+    return new Date(p[0], p[1]-1, p[2]);
+  }
+  function cleanTitle(item){
+    const clone = item.cloneNode(true);
+    clone.querySelectorAll('.date,.tag,.calendar-link').forEach(el => el.remove());
+    return clone.textContent.replace(/\s+/g,' ').replace(/^—\s*/,'').trim();
+  }
+
+  const campaigns = Array.from(document.querySelectorAll('.schedule-list li[data-campaign="true"]')).filter(item => {
+    const start = toDate(item.dataset.start);
+    const end = toDate(item.dataset.end || item.dataset.start);
+    return today >= start && today <= end;
+  });
+
+  if (!campaigns.length) return;
+
+  campaigns.forEach(item => {
+    const li = document.createElement('li');
+    const start = item.dataset.start.replace('2026-','').replace('-','/');
+    const end = (item.dataset.end || item.dataset.start).replace('2026-','').replace('-','/');
+    li.innerHTML = '<strong>' + cleanTitle(item) + '</strong><br><span class="campaign-period">開催中：' + start + '〜' + end + '</span>';
+    list.appendChild(li);
+  });
+  section.classList.add('show');
+});
+</script><script>
 // タグ別フィルター（完成版）
 document.addEventListener('DOMContentLoaded', function () {
   const filterButtons = Array.from(document.querySelectorAll('.filter-button'));
@@ -1038,32 +1081,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
-</script><script>
-// 開催中キャンペーン表示
-document.addEventListener('DOMContentLoaded', function () {
-  const section = document.getElementById('activeCampaignsSection');
-  const list = document.getElementById('activeCampaignsList');
-  if (!section || !list) return;
-  const today = new Date(); today.setHours(0,0,0,0);
-  function toDate(v){const p=String(v).split('-').map(Number); return new Date(p[0],p[1]-1,p[2]);}
-  function d(v){const p=String(v).split('-'); return p.length===3 ? Number(p[1])+'/'+Number(p[2]) : v;}
-  function clean(item){
-    const c=item.cloneNode(true);
-    c.querySelectorAll('.date,.tag,.calendar-link').forEach(el=>el.remove());
-    return c.textContent.replace(/\s+/g,' ').replace(/ — 詳細.*$/,'').trim();
-  }
-  const items = Array.from(document.querySelectorAll('.schedule-list li[data-campaign="true"]')).filter(item => {
-    const s=toDate(item.dataset.start), e=toDate(item.dataset.end || item.dataset.start);
-    return today >= s && today <= e;
-  });
-  list.innerHTML = '';
-  if (!items.length) return;
-  items.forEach(item => {
-    const li=document.createElement('li');
-    li.innerHTML='<strong>'+clean(item)+'</strong><br><span class="campaign-period">開催中：'+d(item.dataset.start)+'〜'+d(item.dataset.end || item.dataset.start)+'</span>';
-    list.appendChild(li);
-  });
-  section.classList.add('show');
-});
-</script></body>
+</script><footer class="site-footer"><div>制作：きゅん🐥</div><a href="https://x.com/kyun_monakama" rel="noopener" target="_blank">X：@kyun_monakama</a></footer></body>
 </html>

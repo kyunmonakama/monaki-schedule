@@ -876,11 +876,16 @@ h1{
   margin:10px auto 18px;
   font-weight:600;
 }
+
+.today-summary{background:linear-gradient(135deg,#fffefa,#fff8c9,#fff1fb)!important;border:3px dashed #ffd84d!important;box-shadow:0 0 0 5px rgba(255,216,77,.18),0 0 26px rgba(255,199,44,.46),0 8px 22px rgba(94,64,28,.10)!important;animation:softCardGlow 1.9s ease-in-out infinite alternate;}
+.next-event-card{background:linear-gradient(135deg,#fff8b8,#ffeaf4,#e8f7ff)!important;border:4px solid #ffd84d!important;box-shadow:0 0 0 6px rgba(255,216,77,.18),0 0 34px rgba(255,199,44,.62),0 10px 28px rgba(94,64,28,.12)!important;animation:softCardGlow 1.9s ease-in-out infinite alternate;}
+@keyframes softCardGlow{from{filter:brightness(1);transform:translateY(0)}to{filter:brightness(1.035);transform:translateY(-1px)}}
+.next-event-title a,.today-summary a{display:inline-block;margin-left:6px;padding:2px 8px;border-radius:999px;background:#fffaf1;border:1px solid #eadcc5;color:#6b4b16;font-size:.78rem;font-weight:700;text-decoration:none}
 </style>
 </head>
 <body>
-<div class="header-image-wrap"><img alt="MONAKI FAN SCHEDULE モナカマ スケジュール" class="header-image" src="header.png"/></div><div class="update-info">📝 最終更新：2026.6.30 21:15</div>
-<p class="description">モナキのライブ・イベントやメディア出演情報をまとめました。<br>詳細リンクから各サイトをご確認ください♪</p>
+<div class="header-image-wrap"><img alt="MONAKI FAN SCHEDULE モナカマ スケジュール" class="header-image" src="header.png"/></div><div class="update-info">📝 最終更新：2026.7.2 0:10</div>
+<p class="description">モナキのライブ・イベントやメディア出演情報をまとめました。<br/>詳細リンクから各サイトをご確認ください♪</p>
 <div class="today-summary" id="todaySummary"></div>
 <div class="next-event-card show" id="nextEventCard">
 <a aria-label="次の予定へ移動する" class="next-event-link" href="#event-2026-06-28" id="nextEventLink">
@@ -949,7 +954,7 @@ h1{
 <li class="cat-live" data-end="2026-08-19" data-start="2026-08-19" id="event-2026-08-19"><span class="date">8/19</span><span class="tag tag-live">🎤ライブ</span>MONAKI 1st Tour 2026「モナキやで☆しらんけど」名古屋公演 @Zepp Nagoya（開場18:00/開演19:00） — <a href="https://www.kyodotokyo.com/monaki26/" target="_blank">公演情報</a> <a aria-label="Googleカレンダーに追加" class="calendar-link" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=MONAKI+1st+Tour+2026%E3%80%8C%E3%83%A2%E3%83%8A%E3%82%AD%E3%82%84%E3%81%A7%E2%98%86%E3%81%97%E3%82%89%E3%82%93%E3%81%91%E3%81%A9%E3%80%8D%E5%90%8D%E5%8F%A4%E5%B1%8B%E5%85%AC%E6%BC%94+%40Zepp+Nagoya%EF%BC%88%E9%96%8B%E5%A0%B418%3A00%2F%E9%96%8B%E6%BC%9419%3A00%EF%BC%89+%E2%80%94&amp;dates=20260819/20260820&amp;details=%E3%83%A2%E3%83%8A%E3%82%AD+%E3%82%B9%E3%82%B1%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%EF%BC%86%E3%83%AA%E3%83%B3%E3%82%AF%E9%9B%86%E3%81%8B%E3%82%89%E8%BF%BD%E5%8A%A0%5Cn%E8%A9%B3%E7%B4%B0%3A+https%3A%2F%2Fwww.kyodotokyo.com%2Fmonaki26%2F" target="_blank" title="Googleカレンダーに追加">📅</a></li>
 <li class="cat-live" data-end="2026-08-24" data-start="2026-08-24" id="event-2026-08-24"><span class="date">8/24</span><span class="tag tag-live">🎤ライブ</span>MONAKI 1st Tour 2026「モナキやで☆しらんけど」東京公演 @Zepp Haneda（開場18:00/開演19:00） — <a href="https://www.kyodotokyo.com/monaki26/" target="_blank">公演情報</a> <a aria-label="Googleカレンダーに追加" class="calendar-link" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=MONAKI+1st+Tour+2026%E3%80%8C%E3%83%A2%E3%83%8A%E3%82%AD%E3%82%84%E3%81%A7%E2%98%86%E3%81%97%E3%82%89%E3%82%93%E3%81%91%E3%81%A9%E3%80%8D%E6%9D%B1%E4%BA%AC%E5%85%AC%E6%BC%94+%40Zepp+Haneda%EF%BC%88%E9%96%8B%E5%A0%B418%3A00%2F%E9%96%8B%E6%BC%9419%3A00%EF%BC%89+%E2%80%94&amp;dates=20260824/20260825&amp;details=%E3%83%A2%E3%83%8A%E3%82%AD+%E3%82%B9%E3%82%B1%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%EF%BC%86%E3%83%AA%E3%83%B3%E3%82%AF%E9%9B%86%E3%81%8B%E3%82%89%E8%BF%BD%E5%8A%A0%5Cn%E8%A9%B3%E7%B4%B0%3A+https%3A%2F%2Fwww.kyodotokyo.com%2Fmonaki26%2F" target="_blank" title="Googleカレンダーに追加">📅</a></li>
 <li class="cat-live" data-end="2026-08-30" data-start="2026-08-30" id="event-2026-08-30-atjam"><span class="date">8/30</span><span class="tag tag-live">🎤ライブ</span>＠ JAM EXPO2026 supported by UP-T 出演 @横浜アリーナ — <a href="https://atjam.jp/expo2026" target="_blank">オフィシャルサイト</a>（詳細は後日発表） <a aria-label="Googleカレンダーに追加" class="calendar-link" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%EF%BC%A0+JAM+EXPO2026+supported+by+UP-T+%E5%87%BA%E6%BC%94+%40%E6%A8%AA%E6%B5%9C%E3%82%A2%E3%83%AA%E3%83%BC%E3%83%8A+%E2%80%94+%EF%BC%88%E8%A9%B3%E7%B4%B0%E3%81%AF%E5%BE%8C%E6%97%A5%E7%99%BA%E8%A1%A8%EF%BC%89&amp;dates=20260830/20260831&amp;details=%E3%83%A2%E3%83%8A%E3%82%AD+%E3%82%B9%E3%82%B1%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%EF%BC%86%E3%83%AA%E3%83%B3%E3%82%AF%E9%9B%86%E3%81%8B%E3%82%89%E8%BF%BD%E5%8A%A0%5Cn%E8%A9%B3%E7%B4%B0%3A+https%3A%2F%2Fatjam.jp%2Fexpo2026" target="_blank" title="Googleカレンダーに追加">📅</a></li><li class="cat-deadline" data-campaign="true" data-end="2026-08-31" data-start="2026-08-31" id="event-famima-frappe-end"><span class="date">08/31</span><span class="tag tag-deadline">⏰締切</span><span class="tag tag-campaign">🎁キャンペーン</span>ファミマ×モナキ フラッペキャンペーン 実施期間終了（対象フラッペ購入は23:59まで） — <a href="https://www.family.co.jp/company/news_releases/2026/20260622_02.html" target="_blank">詳細</a> <a aria-label="Googleカレンダーに追加" class="calendar-link" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=ファミマ×モナキ フラッペキャンペーン 実施期間終了（対象フラッペ購入は23:59まで）&amp;dates=20260831/20260901" target="_blank" title="Googleカレンダーに追加">📅</a></li><li class="cat-deadline" data-campaign="true" data-end="2026-09-04" data-start="2026-09-04" id="event-famima-frappe-apply-deadline"><span class="date">09/04</span><span class="tag tag-deadline">⏰締切</span><span class="tag tag-campaign">🎁キャンペーン</span>ファミマ×モナキ フラッペキャンペーン 応募締切（23:59まで） — <a href="https://www.family.co.jp/company/news_releases/2026/20260622_02.html" target="_blank">詳細</a> <a aria-label="Googleカレンダーに追加" class="calendar-link" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=ファミマ×モナキ フラッペキャンペーン 応募締切（23:59まで）&amp;dates=20260904/20260905" target="_blank" title="Googleカレンダーに追加">📅</a></li><li class="cat-deadline" data-campaign="true" data-end="2026-10-12" data-start="2026-10-12" id="event-bigecho-end"><span class="date">10/12</span><span class="tag tag-deadline">⏰締切</span><span class="tag tag-campaign">🎁キャンペーン</span>ビッグエコー×モナキ コラボ最終日 — <a href="https://big-echo.jp/campaign/monaki/" target="_blank">詳細</a></li><li class="cat-deadline" data-campaign="true" data-end="2026-10-12" data-start="2026-10-12" id="event-dam-campaign-end"><span class="date">10/12</span><span class="tag tag-deadline">⏰締切</span><span class="tag tag-campaign">🎁キャンペーン</span>DAM×モナキ コラボキャンペーン応募締切 — <a href="https://www.clubdam.com/campaign/collaboration/cp202607_monaki.html" target="_blank">詳細</a> <a aria-label="Googleカレンダーに追加" class="calendar-link" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=DAM%C3%97%E3%83%A2%E3%83%8A%E3%82%AD+%E3%82%B3%E3%83%A9%E3%83%9C%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%9A%E3%83%BC%E3%83%B3%E5%BF%9C%E5%8B%9F%E7%B7%A0%E5%88%87&amp;dates=20261012/20261013&amp;details=DAM%C3%97%E3%83%A2%E3%83%8A%E3%82%AD+%E3%82%B3%E3%83%A9%E3%83%9C%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%9A%E3%83%BC%E3%83%B3%E5%BF%9C%E5%8B%9F%E7%B7%A0%E5%88%87%0Ahttps%3A%2F%2Fwww.clubdam.com%2Fcampaign%2Fcollaboration%2Fcp202607_monaki.html" target="_blank" title="Googleカレンダーに追加">📅</a></li><li class="cat-live" data-end="2026-10-27" data-start="2026-10-27" id="event-2026-10-27"><span class="date">10/27</span><span class="tag tag-live">🎤ライブ</span>ワンマンライブ「ハロウィンやで☆しらんけど」@豊洲PIT（東京） — <a href="https://monaki.fanpla.jp/news/detail/82977" target="_blank">ニュース詳細</a> <a aria-label="Googleカレンダーに追加" class="calendar-link" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%E3%83%AF%E3%83%B3%E3%83%9E%E3%83%B3%E3%83%A9%E3%82%A4%E3%83%96%E3%80%8C%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%84%E3%81%A7%E2%98%86%E3%81%97%E3%82%89%E3%82%93%E3%81%91%E3%81%A9%E3%80%8D%40%E8%B1%8A%E6%B4%B2PIT%EF%BC%88%E6%9D%B1%E4%BA%AC%EF%BC%89+%E2%80%94&amp;dates=20261027/20261028&amp;details=%E3%83%A2%E3%83%8A%E3%82%AD+%E3%82%B9%E3%82%B1%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%EF%BC%86%E3%83%AA%E3%83%B3%E3%82%AF%E9%9B%86%E3%81%8B%E3%82%89%E8%BF%BD%E5%8A%A0%5Cn%E8%A9%B3%E7%B4%B0%3A+https%3A%2F%2Fmonaki.fanpla.jp%2Fnews%2Fdetail%2F82977" target="_blank" title="Googleカレンダーに追加">📅</a></li>
-</ul>
+<li class="cat-ticket" data-end="2026-07-01" data-start="2026-07-01" id="k1"><span class="date">7/1</span><span class="tag tag-ticket">🎫チケット</span>氣志團万博2026 最速先行受付開始（12:00〜7/20 23:59） — <a href="https://eplus.jp/kishidanbanpaku26/" target="_blank">受付ページ</a></li><li class="cat-radio" data-end="2026-07-06" data-start="2026-07-06" id="ann"><span class="date">7/6</span><span class="tag tag-radio">📻ラジオ</span>モナキのオールナイトニッポン0(ZERO)（27:00〜28:30） — <a href="https://news.1242.com/article/549461" target="_blank">詳細</a></li><li class="cat-tv" data-end="2026-07-11" data-start="2026-07-11" id="baba"><span class="date">7/11</span><span class="tag tag-tv">📺TV</span>BABA抜き最弱王決定戦2026夏（おヨネ出演）21:00〜23:10 — <a href="https://www.fujitv.co.jp/fujitv/news/20260689.html" target="_blank">番組サイト</a></li><li class="cat-tv" data-end="2026-07-18" data-start="2026-07-18" id="oto"><span class="date">7/18</span><span class="tag tag-tv">📺TV</span>ABCテレビ『音バナ♪ついつい』深夜0時放送 — <a href="https://www.asahi.co.jp/otobana/" target="_blank">番組サイト</a></li><li class="cat-deadline" data-end="2026-07-20" data-start="2026-07-20" id="k2"><span class="date">7/20</span><span class="tag tag-ticket">🎫チケット</span><span class="tag tag-deadline">⏰締切</span>氣志團万博2026 最速先行受付締切（23:59） — <a href="https://eplus.jp/kishidanbanpaku26/" target="_blank">受付ページ</a></li><li class="cat-live" data-end="2026-10-23" data-start="2026-10-23" id="kinjo"><span class="date">10/23</span><span class="tag tag-live">🎤ライブ</span><span class="tag tag-event">🎪イベント</span>第68回 金城祭 Special Live（17:30開場／18:00開演） — <a href="https://www.instagram.com/kinjofes" target="_blank">詳細</a></li><li class="cat-live" data-end="2026-11-07" data-start="2026-11-07" id="kishi"><span class="date">11/7</span><span class="tag tag-live">🎤ライブ</span><span class="tag tag-event">🎪イベント</span>氣志團万博2026 ～房総爆音リゾート～ モナキ初出演 — <a href="https://eplus.jp/kishidanbanpaku26/" target="_blank">詳細</a></li></ul>
 </div>
 <div class="links-section">
 <h2>公式リンク集</h2>
@@ -963,96 +968,6 @@ h1{
 </div>
 <p class="description">このページはファンによる非公式なまとめページです。</p>
 <script>
-// 次の予定カード＆今日の予定ハイライト（長期キャンペーン除外版）
-document.addEventListener('DOMContentLoaded', function () {
-  const items = Array.from(document.querySelectorAll('.schedule-list li[data-start]'))
-    .filter(item => item.dataset.campaign !== 'true');
-
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  function toDate(value) {
-    const parts = String(value).split('-').map(Number);
-    return new Date(parts[0], parts[1] - 1, parts[2]);
-  }
-
-  function daysBetween(a, b) {
-    return Math.round((b.getTime() - a.getTime()) / 86400000);
-  }
-
-  function dateLabel(date) {
-    const week = ['日', '月', '火', '水', '木', '金', '土'][date.getDay()];
-    return `${date.getMonth() + 1}/${date.getDate()}（${week}）`;
-  }
-
-  function cleanTitle(item) {
-    const clone = item.cloneNode(true);
-    clone.querySelectorAll('.date, .tag, .calendar-link').forEach(el => el.remove());
-    return clone.textContent.replace(/\s+/g, ' ').replace(/^—\s*/, '').trim();
-  }
-
-  let upcoming = [];
-  let todays = [];
-
-  items.forEach((item, index) => {
-    item.classList.remove('today', 'next-event', 'jump-flash');
-    const start = toDate(item.dataset.start);
-    const end = toDate(item.dataset.end || item.dataset.start);
-
-    if (today >= start && today <= end) {
-      item.classList.add('today');
-      todays.push(item.textContent.replace(/\s+/g, ' ').trim());
-      upcoming.push({ item, index, date: today, title: cleanTitle(item) });
-    } else if (start >= today) {
-      upcoming.push({ item, index, date: start, title: cleanTitle(item) });
-    }
-  });
-
-  const summary = document.getElementById('todaySummary');
-  if (summary) {
-    summary.classList.add('show');
-    summary.innerHTML = todays.length
-      ? '🌟 <strong>今日の予定があります！</strong><br>' + todays.map(t => '・' + t).join('<br>')
-      : '今日は登録されている予定はありません。次のモナキ予定までゆるっと待機中です💛';
-  }
-
-  const card = document.getElementById('nextEventCard');
-  const link = document.getElementById('nextEventLink');
-  if (!card || !link) return;
-
-  if (!upcoming.length) {
-    card.classList.add('show');
-    link.removeAttribute('href');
-    document.getElementById('nextEventDate').textContent = '📅 今後の予定なし';
-    document.getElementById('nextEventTitle').textContent = '登録されている今後の予定はありません。新情報待機中です⭐';
-    document.getElementById('nextEventCountdown').textContent = '';
-    return;
-  }
-
-  upcoming.sort((a, b) => (a.date - b.date) || (a.index - b.index));
-  const next = upcoming[0];
-  next.item.classList.add('next-event');
-  next.item.id = next.item.id || ('next-event-item-' + next.index);
-
-  const diff = daysBetween(today, next.date);
-  const countdown = diff === 0 ? '今日です！' : diff === 1 ? 'あと1日' : `あと${diff}日`;
-
-  card.classList.add('show');
-  link.href = '#' + next.item.id;
-  document.getElementById('nextEventDate').textContent = '📅 ' + dateLabel(next.date);
-  document.getElementById('nextEventTitle').textContent = next.title;
-  document.getElementById('nextEventCountdown').textContent = '⏰ ' + countdown;
-
-  link.addEventListener('click', function (event) {
-    event.preventDefault();
-    next.item.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    next.item.classList.remove('jump-flash');
-    void next.item.offsetWidth;
-    next.item.classList.add('jump-flash');
-    history.replaceState(null, '', '#' + next.item.id);
-  });
-});
-</script><script>
 // 開催中キャンペーン表示
 document.addEventListener('DOMContentLoaded', function () {
   const section = document.getElementById('activeCampaignsSection');
@@ -1109,5 +1024,25 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
-</script><footer class="site-footer"><div>制作：きゅん🐥</div><a href="https://x.com/kyun_monakama" rel="noopener" target="_blank">X：@kyun_monakama</a></footer></body>
+</script><footer class="site-footer"><div>制作：きゅん🐥</div><a href="https://x.com/kyun_monakama" rel="noopener" target="_blank">X：@kyun_monakama</a></footer><script>
+document.addEventListener('DOMContentLoaded',function(){
+ const items=Array.from(document.querySelectorAll('.schedule-list li[data-start]')).filter(i=>i.dataset.campaign!=='true');
+ const today=new Date();today.setHours(0,0,0,0);
+ const toDate=v=>{const p=String(v).split('-').map(Number);return new Date(p[0],p[1]-1,p[2]);};
+ const days=(a,b)=>Math.round((b.getTime()-a.getTime())/86400000);
+ const dateLabel=d=>`${d.getMonth()+1}/${d.getDate()}（${['日','月','火','水','木','金','土'][d.getDay()]}）`;
+ function title(item){const c=item.cloneNode(true);c.querySelectorAll('.date,.tag,.calendar-link').forEach(e=>e.remove());return c.textContent.replace(/\s+/g,' ').replace(/^—\s*/,'').trim();}
+ function detail(item){const a=item.querySelector('a:not(.calendar-link)');return a?` <a href="${a.href}" target="_blank" rel="noopener">${(a.textContent||'詳細').trim()}</a>`:'';}
+ let upcoming=[],todays=[];
+ items.forEach((item,index)=>{item.classList.remove('today','next-event','jump-flash');const s=toDate(item.dataset.start),e=toDate(item.dataset.end||item.dataset.start),t=title(item),l=detail(item);if(today>=s&&today<=e){item.classList.add('today');todays.push(t+l);upcoming.push({item,index,date:today,title:t,link:l});}else if(s>=today){upcoming.push({item,index,date:s,title:t,link:l});}});
+ const summary=document.getElementById('todaySummary');
+ if(summary){summary.classList.add('show');summary.innerHTML=todays.length?'🌟 <strong>今日の予定があります！</strong><br>'+todays.map(t=>'・'+t).join('<br>'):'今日は登録されている予定はありません。次のモナキ予定までゆるっと待機中です💛';}
+ const card=document.getElementById('nextEventCard'),link=document.getElementById('nextEventLink'); if(!card||!link)return;
+ if(!upcoming.length){card.classList.add('show');link.removeAttribute('href');document.getElementById('nextEventDate').textContent='📅 今後の予定なし';document.getElementById('nextEventTitle').textContent='登録されている今後の予定はありません。新情報待機中です⭐';document.getElementById('nextEventCountdown').textContent='';return;}
+ upcoming.sort((a,b)=>(a.date-b.date)||(a.index-b.index)); const next=upcoming[0]; next.item.classList.add('next-event'); next.item.id=next.item.id||('next-event-item-'+next.index);
+ const diff=days(today,next.date); document.getElementById('nextEventDate').textContent='📅 '+dateLabel(next.date); document.getElementById('nextEventTitle').innerHTML=next.title+next.link; document.getElementById('nextEventCountdown').textContent='⏰ '+(diff===0?'今日です！':diff===1?'あと1日':`あと${diff}日`);
+ card.classList.add('show'); link.href='#'+next.item.id;
+ link.addEventListener('click',function(ev){if(ev.target.closest('a')&&ev.target.closest('a')!==link)return;ev.preventDefault();next.item.scrollIntoView({behavior:'smooth',block:'center'});next.item.classList.remove('jump-flash');void next.item.offsetWidth;next.item.classList.add('jump-flash');history.replaceState(null,'','#'+next.item.id);});
+});
+</script></body>
 </html>

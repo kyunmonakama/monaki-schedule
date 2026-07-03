@@ -897,10 +897,27 @@ h1{
 .tag-campaign{background-color:#dcfff0;border:1px solid #8ee6c3;color:#116344;font-weight:bold;}
 .schedule-list li.cat-campaign::after{background:#8ee6c3!important;}
 .campaign-period{display:inline-block;margin-top:4px;padding:2px 8px;border-radius:999px;background:#f0fff8;border:1px solid #bdeed8;color:#116344;font-weight:bold;font-size:.72rem;}
+
+/* 開催中キャンペーン内リンク */
+.active-campaigns-list a{
+  display:inline-block;
+  margin-top:5px;
+  padding:2px 8px;
+  border-radius:999px;
+  background:#fffaf1;
+  border:1px solid #eadcc5;
+  color:#6b4b16;
+  font-size:.78rem;
+  font-weight:700;
+  text-decoration:none;
+}
+.active-campaigns-list a:hover{
+  background:#fff1ca;
+}
 </style>
 </head>
 <body>
-<div class="header-image-wrap"><img alt="MONAKI FAN SCHEDULE モナカマ スケジュール" class="header-image" src="header.png"/></div><div class="update-info">📝 最終更新：2026.7.3 0:35</div>
+<div class="header-image-wrap"><img alt="MONAKI FAN SCHEDULE モナカマ スケジュール" class="header-image" src="header.png"/></div><div class="update-info">📝 最終更新：2026.7.3 0:45</div>
 <p class="description">モナキのライブ・イベントやメディア出演情報をまとめました。<br/>詳細リンクから各サイトをご確認ください♪</p>
 <div class="today-summary" id="todaySummary"></div>
 <div class="next-event-card show" id="nextEventCard">
@@ -972,30 +989,61 @@ document.addEventListener('DOMContentLoaded',function(){
  link.addEventListener('click',function(ev){if(ev.target.closest('a')&&ev.target.closest('a')!==link)return;ev.preventDefault();next.item.scrollIntoView({behavior:'smooth',block:'center'});next.item.classList.remove('jump-flash');void next.item.offsetWidth;next.item.classList.add('jump-flash');history.replaceState(null,'','#'+next.item.id);});
 });
 </script><script>
-// 開催中キャンペーン表示
+// 開催中キャンペーン表示（リンク付き）
 document.addEventListener('DOMContentLoaded', function () {
   const section = document.getElementById('activeCampaignsSection');
   const list = document.getElementById('activeCampaignsList');
   if (!section || !list) return;
-  const today = new Date(); today.setHours(0,0,0,0);
-  function toDate(v){const p=String(v).split('-').map(Number); return new Date(p[0],p[1]-1,p[2]);}
-  function d(v){const p=String(v).split('-'); return p.length===3 ? Number(p[1])+'/'+Number(p[2]) : v;}
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  function toDate(v){
+    const p = String(v).split('-').map(Number);
+    return new Date(p[0], p[1]-1, p[2]);
+  }
+
+  function d(v){
+    const p = String(v).split('-');
+    return p.length === 3 ? Number(p[1]) + '/' + Number(p[2]) : v;
+  }
+
   function clean(item){
-    const c=item.cloneNode(true);
-    c.querySelectorAll('.date,.tag,.calendar-link').forEach(el=>el.remove());
+    const c = item.cloneNode(true);
+    c.querySelectorAll('.date,.tag,.calendar-link,a').forEach(el => el.remove());
     return c.textContent.replace(/\s+/g,' ').replace(/ — .*$/,'').trim();
   }
-  const items = Array.from(document.querySelectorAll('.schedule-list li[data-campaign="true"]')).filter(item => {
-    const s=toDate(item.dataset.start), e=toDate(item.dataset.end || item.dataset.start);
-    return today >= s && today <= e;
-  }).sort((a,b)=>toDate(a.dataset.end||a.dataset.start)-toDate(b.dataset.end||b.dataset.start));
+
+  function sourceLink(item){
+    const a = item.querySelector('a:not(.calendar-link)');
+    if (!a) return '';
+    const label = (a.textContent || '詳細').trim();
+    return '<br><a href="' + a.href + '" target="_blank" rel="noopener">' + label + '</a>';
+  }
+
+  const items = Array.from(document.querySelectorAll('.schedule-list li[data-campaign="true"]'))
+    .filter(item => {
+      const s = toDate(item.dataset.start);
+      const e = toDate(item.dataset.end || item.dataset.start);
+      return today >= s && today <= e;
+    })
+    .sort((a,b) => toDate(a.dataset.end || a.dataset.start) - toDate(b.dataset.end || b.dataset.start));
+
   list.innerHTML = '';
-  if (!items.length) { section.classList.remove('show'); return; }
+  if (!items.length) {
+    section.classList.remove('show');
+    return;
+  }
+
   items.forEach(item => {
-    const li=document.createElement('li');
-    li.innerHTML='<strong>'+clean(item)+'</strong><br><span class="campaign-period">開催中：'+d(item.dataset.start)+'〜'+d(item.dataset.end || item.dataset.start)+'</span>';
+    const li = document.createElement('li');
+    li.innerHTML =
+      '<strong>' + clean(item) + '</strong><br>' +
+      '<span class="campaign-period">開催中：' + d(item.dataset.start) + '〜' + d(item.dataset.end || item.dataset.start) + '</span>' +
+      sourceLink(item);
     list.appendChild(li);
   });
+
   section.classList.add('show');
 });
 </script></body>

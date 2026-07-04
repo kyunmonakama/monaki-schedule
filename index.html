@@ -925,10 +925,39 @@ h1{
 .archive-section.open .archive-list-wrap{display:block}
 .archive-section .schedule-list li{opacity:.86}
 @media(max-width:640px){.archive-section{padding:11px;border-radius:16px}.archive-toggle{font-size:.84rem;padding:10px 12px}}
+
+/* 正式版：期間型キャンペーンは開催中欄に集約 */
+.schedule-section .schedule-list li[data-campaign="true"]{
+  display:none!important;
+}
+.active-campaigns-list a{
+  display:inline-block;
+  margin-top:5px;
+  padding:2px 8px;
+  border-radius:999px;
+  background:#fffaf1;
+  border:1px solid #eadcc5;
+  color:#6b4b16;
+  font-size:.78rem;
+  font-weight:700;
+  text-decoration:none;
+}
+.active-campaigns-list a:hover{background:#fff1ca;}
+.active-campaigns-list .campaign-deadline{
+  display:inline-block;
+  margin-left:6px;
+  padding:2px 8px;
+  border-radius:999px;
+  background:#fff6d8;
+  border:1px solid #ffd76a;
+  color:#7a4b00;
+  font-weight:bold;
+  font-size:.72rem;
+}
 </style>
 </head>
 <body>
-<div class="header-image-wrap"><img alt="MONAKI FAN SCHEDULE モナカマ スケジュール" class="header-image" src="header.png"/></div><div class="update-info">📝 最終更新：2026.7.4 17:45</div>
+<div class="header-image-wrap"><img alt="MONAKI FAN SCHEDULE モナカマ スケジュール" class="header-image" src="header.png"/></div><div class="update-info">📝 最終更新：2026.7.4 18:00</div>
 <p class="description">モナキのライブ・イベントやメディア出演情報をまとめました。<br/>詳細リンクから各サイトをご確認ください♪</p>
 <div class="today-summary" id="todaySummary"></div>
 <div class="next-event-card show" id="nextEventCard">
@@ -960,33 +989,6 @@ h1{
 </div>
 <p class="description">このページはファンによる非公式なまとめページです。</p>
 <footer class="site-footer"><div>制作：きゅん🐥</div><a href="https://x.com/kyun_monakama" rel="noopener" target="_blank">X：@kyun_monakama</a></footer><script>
-// 開催中キャンペーン表示
-document.addEventListener('DOMContentLoaded', function () {
-  const section = document.getElementById('activeCampaignsSection');
-  const list = document.getElementById('activeCampaignsList');
-  if (!section || !list) return;
-  const today = new Date(); today.setHours(0,0,0,0);
-  function toDate(v){const p=String(v).split('-').map(Number); return new Date(p[0],p[1]-1,p[2]);}
-  function d(v){const p=String(v).split('-'); return p.length===3 ? Number(p[1])+'/'+Number(p[2]) : v;}
-  function clean(item){
-    const c=item.cloneNode(true);
-    c.querySelectorAll('.date,.tag,.calendar-link').forEach(el=>el.remove());
-    return c.textContent.replace(/\s+/g,' ').replace(/ — .*$/,'').trim();
-  }
-  const items = Array.from(document.querySelectorAll('.schedule-list li[data-campaign="true"]')).filter(item => {
-    const s=toDate(item.dataset.start), e=toDate(item.dataset.end || item.dataset.start);
-    return today >= s && today <= e;
-  }).sort((a,b)=>toDate(a.dataset.end||a.dataset.start)-toDate(b.dataset.end||b.dataset.start));
-  list.innerHTML = '';
-  if (!items.length) { section.classList.remove('show'); return; }
-  items.forEach(item => {
-    const li=document.createElement('li');
-    li.innerHTML='<strong>'+clean(item)+'</strong><br><span class="campaign-period">開催中：'+d(item.dataset.start)+'〜'+d(item.dataset.end || item.dataset.start)+'</span>';
-    list.appendChild(li);
-  });
-  section.classList.add('show');
-});
-</script><script>
 // 過去予定アーカイブ＋タグ絞り込み＋今日/次＋Xシェア
 document.addEventListener('DOMContentLoaded',function(){
  const futureList=document.querySelector('.schedule-section .schedule-list');
@@ -1074,6 +1076,67 @@ document.addEventListener('DOMContentLoaded',function(){
  async function copyText(text){try{await navigator.clipboard.writeText(text);if(status)status.textContent='コピーしました！Xに貼り付けて使えます💛';}catch(e){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();if(status)status.textContent='コピーしました！';}}
  if(copy)copy.addEventListener('click',()=>copyText(buildText()));
  if(share)share.addEventListener('click',()=>{window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(buildText()),'_blank','noopener');if(status)status.textContent='Xの投稿画面を開きました。内容を確認して投稿してね💛';});
+});
+</script><script>
+// 開催中キャンペーン表示（リンク付き・終了日が近い順）
+document.addEventListener('DOMContentLoaded', function () {
+  const section = document.getElementById('activeCampaignsSection');
+  const list = document.getElementById('activeCampaignsList');
+  if (!section || !list) return;
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  function toDate(v){
+    const p = String(v || '').split('-').map(Number);
+    return new Date(p[0], p[1]-1, p[2]);
+  }
+  function shortDate(v){
+    const p = String(v || '').split('-');
+    return p.length === 3 ? Number(p[1]) + '/' + Number(p[2]) : v;
+  }
+  function daysLeft(endDate){
+    return Math.round((endDate.getTime() - today.getTime()) / 86400000);
+  }
+  function cleanTitle(item){
+    const c = item.cloneNode(true);
+    c.querySelectorAll('.date,.tag,.calendar-link,a,.campaign-period').forEach(el => el.remove());
+    return c.textContent.replace(/\s+/g,' ').replace(/ — .*$/,'').trim();
+  }
+  function detailLink(item){
+    const a = item.querySelector('a:not(.calendar-link)');
+    if (!a) return '';
+    const label = (a.textContent || '詳細').trim();
+    return '<br><a href="' + a.href + '" target="_blank" rel="noopener">' + label + '</a>';
+  }
+
+  const items = Array.from(document.querySelectorAll('.schedule-list li[data-campaign="true"]'))
+    .filter(item => {
+      const s = toDate(item.dataset.start);
+      const e = toDate(item.dataset.end || item.dataset.start);
+      return today >= s && today <= e;
+    })
+    .sort((a,b) => toDate(a.dataset.end || a.dataset.start) - toDate(b.dataset.end || b.dataset.start));
+
+  list.innerHTML = '';
+  if (!items.length) {
+    section.classList.remove('show');
+    return;
+  }
+
+  items.forEach(item => {
+    const end = toDate(item.dataset.end || item.dataset.start);
+    const remain = daysLeft(end);
+    const remainText = remain === 0 ? '本日まで' : 'あと' + remain + '日';
+    const li = document.createElement('li');
+    li.innerHTML =
+      '<strong>' + cleanTitle(item) + '</strong><br>' +
+      '<span class="campaign-period">開催中：' + shortDate(item.dataset.start) + '〜' + shortDate(item.dataset.end || item.dataset.start) + '</span>' +
+      '<span class="campaign-deadline">' + remainText + '</span>' +
+      detailLink(item);
+    list.appendChild(li);
+  });
+  section.classList.add('show');
 });
 </script></body>
 </html>
